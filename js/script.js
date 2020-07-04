@@ -27,8 +27,7 @@ const movieDB = {
 const banners = document.querySelectorAll ('.promo__adv img'),
     poster = document.querySelector('.promo__bg'),
     genre = poster.querySelector('.promo__genre'),
-    films = document.querySelector('.promo__interactive-list'),
-    filmsName = document.querySelector('.promo__interactive-item');
+    films = document.querySelector('.promo__interactive-list');
 
 banners.forEach(item => {
     item.remove();
@@ -37,20 +36,26 @@ genre.textContent = 'Драма';
 poster.style.backgroundImage = "url('img/bg.jpg')";
 
 films.innerHTML = '';
-function callbackFunction (callback){
-    movieDB.movies.forEach((film, i) =>{
-        films.innerHTML += `
-            <li class="promo__interactive-item">${i+1}. ${film}
-                <div class="delete"></div>
-            </li>
-        `;
-    });
-    console.log('Yes');
-    callback();
-};
-callbackFunction(function(){
-    filmsName.style.color = 'red';
-    console.dir(filmsName);
+
+
+movieDB.movies.forEach((film, i) =>{
+    films.innerHTML += `
+        <li class="promo__interactive-item">${i+1}. ${film}
+             <div class="delete"></div>
+        </li>
+    `;
+});
+   
+
+const blockFilms =  document.querySelectorAll('.promo__interactive-list li');
+
+blockFilms.forEach(li => {
+    console.dir(li);
+    li.style.whiteSpace = "nowrap";
+    li.style.maxHeight = "18px";
+    li.style.overflow = "hidden";
+    li.style.textOverflow = "ellipsis";
+    li.style.fontWeight = "600";
 });
 
 
