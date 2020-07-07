@@ -63,13 +63,13 @@ document.addEventListener('DOMContentLoaded', () => {
         li.style.maxHeight = "18px";
     });
 
-    const addForm = document.querySelector('.add button');
+    const addForm = document.querySelector('form.add');
     const form = document.querySelector('.adding__input');
 
 
 
 
-    addForm.addEventListener('click', ()=>{
+    addForm.addEventListener('submit', (event)=>{
         let formValue = form.value;
         event.preventDefault();
         if (formValue.length >22) {
@@ -81,8 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
         addMovie(movieDB.movies);
         createMovieList(movieDB.movies, films);
 
-        form.target.reset();
-        
+        event.target.reset();
+        console.log(event);
     });
 
 
