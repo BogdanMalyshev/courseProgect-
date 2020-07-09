@@ -1,14 +1,4 @@
-/* Задания на урок:
-1) Реализовать функционал, что после заполнения формы и нажатия кнопки "Подтвердить" - 
-новый фильм добавляется в список. Страница не должна перезагружаться.
-Новый фильм должен добавляться в movieDB.movies.
-Для получения доступа к значению input - обращаемся к нему как input.value;
-P.S. Здесь есть несколько вариантов решения задачи, принимается любой, но рабочий.
-2) Если название фильма больше, чем 21 символ - обрезать его и добавить три точки
-3) При клике на мусорную корзину - элемент будет удаляться из списка (сложно)
-4) Если в форме стоит галочка "Сделать любимым" - в консоль вывести сообщение: 
-"Добавляем любимый фильм"
-5) Фильмы должны быть отсортированы по алфавиту */
+
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -23,12 +13,24 @@ document.addEventListener('DOMContentLoaded', () => {
             "Скотт Пилигрим против..."
         ]
     };
+
+    const favoriteMovieDB = [];
     
     const bannersRemove = document.querySelectorAll ('.promo__adv img'),
         poster = document.querySelector('.promo__bg'),
         genre = poster.querySelector('.promo__genre'),
-        films = document.querySelector('.promo__interactive-list');
+        films = document.querySelector('.promo__interactive-list'),
+        filmsList =  document.querySelectorAll('.promo__interactive-list li'),
+        addForm = document.querySelector('form.add'),
+        form = document.querySelector('.adding__input'),
+        checkbox = addForm.querySelector('[type="checkbox"]');
+        
     
+        
+
+    const sortArr = (arr) => {
+        arr.sort();
+    };
 
 
     function arr (arr) {
@@ -56,40 +58,43 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     addMovie(movieDB.movies);
        
+    function newStyleForList (list){
+        list.forEach(li =>{
+            li.style.maxHeight = "18px";
+        });
+    }
+    newStyleForList(filmsList);
     
-    let blockFilms =  document.querySelectorAll('.promo__interactive-list li');
-    
-    blockFilms.forEach(li => {
-        li.style.maxHeight = "18px";
-    });
-
-    const addForm = document.querySelector('form.add');
-    const form = document.querySelector('.adding__input');
-
-
-
 
     addForm.addEventListener('submit', (event)=>{
-        let formValue = form.value;
+
+        let formValue = form.value,
+        favorite = checkbox.checked;
+
         event.preventDefault();
         if (formValue.length >22) {
             formValue = `${formValue.substring(0,18)}...`;
         }
 
+        
+
+        if(formValue){
         movieDB.movies.push(formValue);
-        console.log(movieDB.movies);
         addMovie(movieDB.movies);
         createMovieList(movieDB.movies, films);
 
+        if(favorite){
+            favoriteMovieDB.push(formValue);
+            console.log(favoriteMovieDB);
+            console.log("Любимый фильм!");
+        }
+
         event.target.reset();
-        console.log(event);
+        }
+        
     });
 
 
-
-    const sortArr = (arr) => {
-        arr.sort();
-    };
 
     function createMovieList(films, parent) {
         parent.innerHTML = "";
